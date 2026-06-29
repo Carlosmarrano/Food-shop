@@ -1,7 +1,7 @@
-import { IsInt, IsString, IsUUID, Min } from "class-validator";
+import { Type } from "class-transformer";
+import { IsArray, IsInt, IsString, IsUUID, Min, ValidateNested } from "class-validator";
 
-export class CreateOrderDto {
-
+class OrderItemDto {
     @IsString()
     @IsUUID()
     foodId: string;
@@ -9,4 +9,15 @@ export class CreateOrderDto {
     @IsInt()
     @Min(1)
     quantity: number;
+}
+
+export class CreateOrderDto {
+
+    @IsArray()
+    @ValidateNested({
+        each: true
+    })
+    @Type(
+        () => OrderItemDto)
+    items: OrderItemDto[];
 }
