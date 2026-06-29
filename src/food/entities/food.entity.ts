@@ -32,6 +32,12 @@ export class Food {
     })
     price: number;
 
+    @Column({
+        type: "int",
+        default : 0
+    })
+    stock: number;
+
     @OneToMany(
         () => FoodImage,
         (foodImage) => foodImage.food,

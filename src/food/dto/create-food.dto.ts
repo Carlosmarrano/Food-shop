@@ -1,4 +1,4 @@
-import { IsArray, IsNumber, IsOptional, IsPositive, IsString, MinLength } from "class-validator";
+import { IsArray, IsInt, IsNumber, IsOptional, IsPositive, IsString, Min, MinLength } from "class-validator";
 
 export class CreateFoodDto {
 
@@ -21,4 +21,8 @@ export class CreateFoodDto {
     @IsArray()
     @IsOptional()
     images?: string[];
+
+    @IsInt()
+    @Min(0)
+    stock: number;
 }

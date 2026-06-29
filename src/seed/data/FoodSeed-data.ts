@@ -4,7 +4,8 @@ interface SeedFood {
     description: string;
     slug: string;
     price: number;
-    images: string[]
+    images: string[];
+    stock: number;
 }
 
 interface SeedUser {
@@ -41,6 +42,7 @@ export const initialFoodData: SeedData = {
             images: ["a96235ab-8085-44ef-a47d-0320512bb9f6.webp"],
             price: 25,
             slug: "reina_papeada",
+            stock: 50,
         },
         {
             title: "Empanadas de pollo",
@@ -48,6 +50,7 @@ export const initialFoodData: SeedData = {
             images: ["2cba60c4-2d2f-460d-a886-cef4c5f02b4b.jpg"],
             price: 18,
             slug: "empanadas_de_pollo",
+            stock: 50,
         },
         {
             title: "Pasta bolognesa",
@@ -55,6 +58,7 @@ export const initialFoodData: SeedData = {
             images: ["8dc71587-b344-40c0-b4ff-6c92631aa0df.webp"],
             price: 15,
             slug: "pasta_bolognesa",
+            stock: 50,
         },
         {
             title: "Hamburguesa Smash doble",
@@ -62,6 +66,7 @@ export const initialFoodData: SeedData = {
             images: ["f0107220-256f-4035-b650-d6b4f32ebf7e.png"],
             price: 15,
             slug: "hamburgesa_smash",
+            stock: 50,
         },
         {
             title: "Boca burguer",
@@ -69,6 +74,7 @@ export const initialFoodData: SeedData = {
             images: ["f22c3f48-c000-4320-8e14-4edbb936c3f7.png"],
             price: 19,
             slug: "boca_burger",
+            stock: 50,
         },
         {
             title: "Alitas BBQ O Picantes",
@@ -76,6 +82,7 @@ export const initialFoodData: SeedData = {
             images: ["c2391151-7194-4554-8163-2fcd29e2e024.png"],
             price: 9,
             slug: "alitas_bbq_o_picantes",
+            stock: 50,
         },
         {
             title: "Tenders",
@@ -83,6 +90,7 @@ export const initialFoodData: SeedData = {
             images: ["84765511-fa0b-4705-a9f8-1ec851838aad.png"],
             price: 7,
             slug: "tenders",
+            stock: 50,
         },
         {
             title: "Parripapas",
@@ -90,6 +98,7 @@ export const initialFoodData: SeedData = {
             images: ["b6b87d11-5465-4ed2-8ef7-36ca6022ad16.png"],
             price: 8,
             slug: "parripapas",
+            stock: 50,
         },
         {
             title: "Ensalada César",
@@ -97,6 +106,7 @@ export const initialFoodData: SeedData = {
             images: ["88e650de-ef71-4402-9924-814b0116f4fb.jpg"],
             price: 10,
             slug: "ensalada_c_esar",
+            stock: 50,
         },
         {
             title: "Alitas Ranch",
@@ -104,6 +114,7 @@ export const initialFoodData: SeedData = {
             images: ["34dbad9c-87ee-44b0-8805-5325ac819aff.jpg"],
             price: 8.5,
             slug: "alitas_ranch",
+            stock: 50,
         },
         {
             title: "Pollo asado con papas fritas",
@@ -111,6 +122,7 @@ export const initialFoodData: SeedData = {
             images: ["e1688a0a-16b3-4d04-b1e9-60e16f26ecf5.jpg"],
             price: 40,
             slug: "pollo_asado_y_papas_fritas",
+            stock: 50,
         },
         {
             title: "Empanadas gordon blue",
@@ -118,6 +130,7 @@ export const initialFoodData: SeedData = {
             images: ["9f946c72-e494-43dd-af97-d0383333b610.webp"],
             price: 12,
             slug: "empanada_gordon_blue",
+            stock: 50,
         },
         {
             title: "Pure de papa con muslo de pollo frito",
@@ -125,6 +138,7 @@ export const initialFoodData: SeedData = {
             images: ["652c5f4e-abbd-46ab-8d4b-4a634e467e31.jpg"],
             price: 12,
             slug: "pure_papa_muslo_pollo_frito",
+            stock: 50,
         },
         {
             title: "Hamburguesa Pollo Crispy",
@@ -132,6 +146,7 @@ export const initialFoodData: SeedData = {
             images: ["59a491d9-1f67-4e25-b282-64250cfee278.webp"],
             price: 20,
             slug: "hamburgesa_pollo_crispy",
+            stock: 50,
         },
         {
             title: "Arepa con pescado frito",
@@ -139,6 +154,7 @@ export const initialFoodData: SeedData = {
             images: ["e6763885-5c1d-4531-9d7a-ce4d00ad7bf4.jpg"],
             price: 25,
             slug: "arepa_con_pescado_frito",
+            stock: 50,
         },
         {
             title: "Arepas fritas con queso",
@@ -146,6 +162,7 @@ export const initialFoodData: SeedData = {
             images: ["a3f3cb4b-bf7d-4b94-bf81-1e29bbc3fa1b.jpg"],
             price: 10,
             slug: "arepas_fritas_con_queso",
+            stock: 50,
         },
         {
             title: "Pasticho Familiar",
@@ -153,6 +170,7 @@ export const initialFoodData: SeedData = {
             images: ["577537d8-44e2-4748-9d13-af6f7d0f8ff7.jpg"],
             price: 50,
             slug: "pasticho",
+            stock: 50,
         },
         {
             title: "Hamburguesa Doble Cheese",
@@ -160,6 +178,7 @@ export const initialFoodData: SeedData = {
             images: ["11f84c94-e72b-4d3d-8f7a-1fd688fdaeaa.jpg"],
             price: 7,
             slug: "doble_cheese",
+            stock: 50,
         },
         {
             title: "Pepito",
@@ -167,6 +186,7 @@ export const initialFoodData: SeedData = {
             images: ["4fa19f17-ca06-4290-863b-baa211828ac8.jpg"],
             price: 10,
             slug: "pepito",
+            stock: 50,
         },
         {
             title: "Club House",
@@ -174,6 +194,7 @@ export const initialFoodData: SeedData = {
             images: ["c02098c5-843e-477d-aae7-715d0945cd75.jpg"],
             price: 7,
             slug: "club_house",
+            stock: 50,
         },
         {
             title: "Agua Minalba",
@@ -181,6 +202,7 @@ export const initialFoodData: SeedData = {
             images: ["f2853917-f8bf-4a42-90d7-64001c0bcfb0.jpg"],
             price: 2,
             slug: "agua_minalba",
+            stock: 50,
         },
         {
             title: "Malta en lata",
@@ -188,6 +210,7 @@ export const initialFoodData: SeedData = {
             images: ["acef0eec-0fe8-47ab-8813-4de5765d2521.png"],
             price: 3,
             slug: "malta_en_lata",
+            stock: 50,
         },
         {
             title: "Refresco Coca-Cola",
@@ -195,6 +218,7 @@ export const initialFoodData: SeedData = {
             images: ["2673e7df-9adc-4773-836d-471c016c74e9.jpeg"],
             price: 4,
             slug: "refresco_coca_cola",
+            stock: 50,
         },
         {
             title: "Refresco Pepsi",
@@ -202,6 +226,7 @@ export const initialFoodData: SeedData = {
             images: ["34d6c507-67b2-4489-8870-37e08ec27ff3.webp"],
             price: 3.5,
             slug: "refresco_pepsi",
+            stock: 50,
         },
         {
             title: "Jugo de Naranja Natural",
@@ -209,6 +234,7 @@ export const initialFoodData: SeedData = {
             images: ["9e44e95b-7533-4811-ac4f-06eaa8f0a91e.jpg"],
             price: 2.5,
             slug: "jugo_de_naranja",
+            stock: 50,
         },
         {
             title: "Limonada",
@@ -216,6 +242,7 @@ export const initialFoodData: SeedData = {
             images: ["231961a1-3847-4a9d-8322-aa28d3c799f1.jpg"],
             price: 2.9,
             slug: "limonada",
+            stock: 50,
         },
         {
             title: "Agua Minalba 1-5 litros",
@@ -223,6 +250,7 @@ export const initialFoodData: SeedData = {
             images: ["43212a3b-02ac-43a4-aac8-df2c2837c842.jpg"],
             price: 3,
             slug: "agua_minalba_1.5_litros",
+            stock: 50,
         },
         {
             title: "Malta en botella de vidrio",
@@ -230,6 +258,7 @@ export const initialFoodData: SeedData = {
             images: ["06f8d4b2-7431-45ed-91e1-93e5d18c7a4d.jpeg"],
             price: 3.5,
             slug: "malta_en_botella_de_vidrio",
+            stock: 50,
         },
         {
             title: "Jugo de fresa",
@@ -237,6 +266,7 @@ export const initialFoodData: SeedData = {
             images: ["2017c11d-05ab-452a-95bf-dae18b3e6f75.jpg"],
             price: 2.5,
             slug: "jugo_fresa",
+            stock: 50,
         },
         {
             title: "Jugo de parchita",
@@ -244,6 +274,7 @@ export const initialFoodData: SeedData = {
             images: ["850241ce-7edc-43f8-82e8-daa184e3dd24.jpg"],
             price: 2.4,
             slug: "jugo_parchita",
+            stock: 50,
         },
         {
             title: "Refresco Frescolita",
@@ -251,6 +282,7 @@ export const initialFoodData: SeedData = {
             images: ["c7056242-5d8a-4ebd-b11b-0c2df8375f3b.webp"],
             price: 3.2,
             slug: "refresco_frescolita",
+            stock: 50,
         },
         {
             title: "Refresco Manzanita",
@@ -258,6 +290,7 @@ export const initialFoodData: SeedData = {
             images: ["61fb84fc-f319-4072-ab52-5516dc052757.jpeg"],
             price: 1.5,
             slug: "refresco_manzanita",
+            stock: 50,
         },
         {
             title: "Refresco 7Up",
@@ -265,6 +298,7 @@ export const initialFoodData: SeedData = {
             images: ["07dfb5fb-e268-4657-95d1-de446a117783.png"],
             price: 2.3,
             slug: "refresco_7up",
+            stock: 50,
         },
         {
             title: "Neste sabor limon",
@@ -272,6 +306,7 @@ export const initialFoodData: SeedData = {
             images: ["d6cac519-fc69-4b3e-b6c5-66c5f33910bc.jpg"],
             price: 15,
             slug: "nestea_sabor_limon",
+            stock: 50,
         },
         {
             title: "Barquilla de chocolate",
@@ -279,6 +314,7 @@ export const initialFoodData: SeedData = {
             images: ["7508e364-0b66-4be5-9872-1b406c01936f.jpg"],
             price: 1.5,
             slug: "barquilla_chocolate",
+            stock: 50,
         },
         {
             title: "Barquilla de fresa",
@@ -286,6 +322,7 @@ export const initialFoodData: SeedData = {
             images: ["89d92899-b482-4c1a-8ce1-aacf03297b0b.jpg"],
             price: 1.5,
             slug: "barquilla_fresa",
+            stock: 50,
         },
         {
             title: "Barquilla de mantecado",
@@ -293,6 +330,7 @@ export const initialFoodData: SeedData = {
             images: ["7aa80328-d9c0-4958-8e15-acb71c5ea770.jpg"],
             price: 1.5,
             slug: "barquilla_mantecado",
+            stock: 50,
         },
         {
             title: "Barquilla de banana",
@@ -300,6 +338,7 @@ export const initialFoodData: SeedData = {
             images: ["f91cc1a4-1278-4127-9a6d-0f9900eb970c.jpg"],
             price: 1.5,
             slug: "barquilla_banana",
+            stock: 50,
         },
         {
             title: "Barquilla ron con pasa",
@@ -307,6 +346,7 @@ export const initialFoodData: SeedData = {
             images: ["d87bf261-212a-49d0-83ca-43b8cfd8b18f.webp"],
             price: 1.5,
             slug: "barquilla_ron_con_pasa",
+            stock: 50,
         },
         {
             title: "Quesillo",
@@ -314,6 +354,7 @@ export const initialFoodData: SeedData = {
             images: ["89ff2449-5209-4463-8ae3-14c9b6c32b81.jpg"],
             price: 5,
             slug: "quesillo",
+            stock: 50,
         },
         {
             title: "Torta de queso",
@@ -321,6 +362,7 @@ export const initialFoodData: SeedData = {
             images: ["8b37dc80-c43c-4bf7-92e8-2ebcdededeca.webp"],
             price: 20,
             slug: "torta_de_queso",
+            stock: 50,
         },
         {
             title: "Marquesa de chocolate",
@@ -328,6 +370,7 @@ export const initialFoodData: SeedData = {
             images: ["f8af337b-132e-4fa3-a807-75aab8ce5cc9.jpg"],
             price: 8.5,
             slug: "marquesa_chocolate",
+            stock: 50,
         },
         {
             title: "Brownie de chocolate",
@@ -335,6 +378,7 @@ export const initialFoodData: SeedData = {
             images: ["5593093a-6430-425b-8c3d-97e07e1ae92d.jpg"],
             price: 6.2,
             slug: "brownie_chocolate",
+            stock: 50,
         },
 ]
 }
