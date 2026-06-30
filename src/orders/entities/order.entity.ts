@@ -1,7 +1,14 @@
 import { User } from "src/auth/entities/user.entity";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { OrderItem } from "./order-item.entity";
-import { Food } from "src/food/entities/food.entity";
+
+export enum foodStatus {
+    pending = "PENDING",
+    inKitchen = "IN_KITCHEN",
+    inDelivery = "IN_DELIVERY",
+    delivered = "DELIVERED",
+    cancelled = "CANCELLED",
+} 
 
 @Entity({ name: "orders"})
 export class Order {
@@ -10,9 +17,11 @@ export class Order {
     id: string;
     
     @Column({
-        type: "text", 
-        default: "PENDING"})
-    status: string;
+        type: "enum",
+        enum: foodStatus, 
+        default: foodStatus.pending
+    })
+    status: foodStatus;
 
     @Column({
         type: "float",
@@ -20,12 +29,6 @@ export class Order {
     })
     total: number;
 
-    @ManyToOne(
-        () => Food,
-        (food) => food.id,
-        { eager: true }
-    )
-    OrderDetail: Food;
 
     @ManyToOne(
         () => User,

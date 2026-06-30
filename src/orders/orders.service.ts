@@ -4,7 +4,7 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Food } from 'src/food/entities/food.entity';
 import { Repository } from 'typeorm';
-import { Order } from './entities/order.entity';
+import { foodStatus, Order } from './entities/order.entity';
 import { OrderItem } from './entities/order-item.entity';
 
 @Injectable()
@@ -53,7 +53,7 @@ export class OrdersService {
     }
 
       const order = this.orderRepository.create({
-        status: "PENDING",
+        status:  foodStatus.pending,
         total: totalAmount,
         items: orderItemsToSave
       });
@@ -92,14 +92,36 @@ export class OrdersService {
   }
 
   async update(id: string, updateOrderDto: UpdateOrderDto) {
-    
-    const order = await this.orderRepository.preload({
-      id,
-      ...updateOrderDto
+
+    const order = await this.orderRepository.findOne({
+      where: {id},
+      relations: {
+        items: {
+          food: true
+        }
+      }
     });
 
     if (!order){
       throw new NotFoundException(`The order with ID ${id} does not exist`)
+    }
+
+    if (order.status === foodStatus.delivered || order.status === foodStatus.cancelled) {
+      throw new BadRequestException(`You cannot modify an order that is already ${order.status}`)
+    }
+
+    if(updateOrderDto.status === foodStatus.cancelled) {
+      for(const item of order.items) {
+        const food = item.food;
+
+        food.stock += item.quantity;
+
+        await this.foodRepository.save(food);
+      }
+    }
+
+    if(updateOrderDto.status) {
+      order.status = updateOrderDto.status;
     }
 
     try{
