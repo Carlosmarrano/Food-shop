@@ -6,6 +6,8 @@ import { Food } from 'src/food/entities/food.entity';
 import { Repository } from 'typeorm';
 import { foodStatus, Order } from './entities/order.entity';
 import { OrderItem } from './entities/order-item.entity';
+import { User } from 'src/auth/entities/user.entity';
+import { ValidRoles } from 'src/auth/interface/valid-roles';
 
 @Injectable()
 export class OrdersService {
@@ -91,7 +93,7 @@ export class OrdersService {
     return order;
   }
 
-  async update(id: string, updateOrderDto: UpdateOrderDto) {
+  async update(id: string, updateOrderDto: UpdateOrderDto, user: User) {
 
     const order = await this.orderRepository.findOne({
       where: {id},
@@ -108,6 +110,12 @@ export class OrdersService {
 
     if (order.status === foodStatus.delivered || order.status === foodStatus.cancelled) {
       throw new BadRequestException(`You cannot modify an order that is already ${order.status}`)
+    }
+
+    if(user.roles.includes(ValidRoles.delivery) ) {
+      if( updateOrderDto.status !== foodStatus.inDelivery && updateOrderDto.status !== foodStatus.delivered) {
+        throw new BadRequestException("The delivery driver can only change the status to IN_DELIVERY or DELIVERED")
+      }
     }
 
     if(updateOrderDto.status === foodStatus.cancelled) {
