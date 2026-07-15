@@ -12,7 +12,8 @@ export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Post()
-  @Auth()
+  //TODO Reactivar Auth una vez que el flujo de autenticación del front este conectado
+  //@Auth()
   create(@Body() createOrderDto: CreateOrderDto) {
     return this.ordersService.create(createOrderDto);
   }
