@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { FoodService } from '../food/food.service';
 import { initialFoodData } from './data/FoodSeed-data';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/entities/user.entity';
 import { Repository } from 'typeorm';
+import { Order } from 'src/orders/entities/order.entity';
 
 @Injectable()
 export class SeedService {
@@ -13,6 +14,9 @@ export class SeedService {
 
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
+
+        @InjectRepository(Order)
+        private readonly orderRepository: Repository<Order>,
 
       ){}
 
@@ -28,6 +32,13 @@ export class SeedService {
       }
 
       private async deleteTablesFood(){
+
+        const orderQueryBuilder = this.orderRepository.createQueryBuilder();
+        await orderQueryBuilder
+        .delete()
+        .where({})
+        .execute();
+
         await this.foodService.deleteAllFoods();
 
         const queryBuilder = this.userRepository.createQueryBuilder();
@@ -52,8 +63,6 @@ export class SeedService {
       }
 
       private async insertNewFood(user: User) {
-    
-        await this.foodService.deleteAllFoods();
     
         const foods = initialFoodData.foods;
     
