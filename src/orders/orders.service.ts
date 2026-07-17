@@ -23,7 +23,7 @@ export class OrdersService {
     private readonly orderItemRepository: Repository<OrderItem>
   ){}
 
-  async create(createOrderDto: CreateOrderDto) {
+  async create(createOrderDto: CreateOrderDto, user: User) {
     
     try{
       const { items } = createOrderDto;
@@ -57,7 +57,8 @@ export class OrdersService {
       const order = this.orderRepository.create({
         status:  foodStatus.pending,
         total: totalAmount,
-        items: orderItemsToSave
+        items: orderItemsToSave,
+        user: user,
       });
 
       await this.orderRepository.save(order);

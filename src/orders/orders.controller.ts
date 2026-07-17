@@ -13,8 +13,8 @@ export class OrdersController {
 
   @Post()
   @Auth()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.create(createOrderDto);
+  create(@Body() createOrderDto: CreateOrderDto, @GetUser() user: User) {
+    return this.ordersService.create(createOrderDto, user);
   }
 
   @Get(':id')
