@@ -1,5 +1,5 @@
 import { User } from "src/auth/entities/user.entity";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { OrderItem } from "./order-item.entity";
 
 export enum foodStatus {
@@ -29,6 +29,11 @@ export class Order {
     })
     total: number;
 
+    @CreateDateColumn({
+        type: "timestamp",
+        default: () => "CURRENT_TIMESTAMP"
+    })
+    createdAt: Date;
 
     @ManyToOne(
         () => User,

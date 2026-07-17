@@ -12,8 +12,7 @@ export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Post()
-  //TODO Reactivar Auth una vez que el flujo de autenticación del front este conectado
-  //@Auth()
+  @Auth()
   create(@Body() createOrderDto: CreateOrderDto) {
     return this.ordersService.create(createOrderDto);
   }
@@ -22,6 +21,12 @@ export class OrdersController {
   @Auth(ValidRoles.admin, ValidRoles.delivery)
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.ordersService.findOrder(id);
+  }
+
+  @Get()
+  @Auth()
+  findAllOrderByUser(@GetUser() user: User) {
+    return this.ordersService.findAllOrderByUser(user.id)
   }
 
   @Patch(':id')
