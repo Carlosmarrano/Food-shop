@@ -33,6 +33,12 @@ export const initialFoodData: SeedData = {
             fullName: 'Test Two',
             password: bcrypt.hashSync('Abc123', 10),
             roles: ['user', 'super']
+        },
+        {
+            email: 'test3@delivery.com',
+            fullName: 'DeliveryTest',
+            password: bcrypt.hashSync('Abc123', 10),
+            roles: ['delivery']
         }
     ],
     foods: [
