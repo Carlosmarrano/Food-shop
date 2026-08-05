@@ -44,6 +44,9 @@ export class Food {
     })
     available: boolean;
 
+    @Column("text", {nullable: true})
+    category: string;
+
     @OneToMany(
         () => FoodImage,
         (foodImage) => foodImage.food,

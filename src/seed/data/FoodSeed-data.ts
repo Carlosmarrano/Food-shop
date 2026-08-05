@@ -6,22 +6,24 @@ interface SeedFood {
     price: number;
     images: string[];
     stock: number;
+    available: boolean;
+    category: string;
 }
 
 interface SeedUser {
-    email:string
+    email: string
     fullName: string
     password: string
     roles: string[]
 }
 
-interface SeedData{
-    users: SeedUser[];    
+interface SeedData {
+    users: SeedUser[];
     foods: SeedFood[];
 }
 
 export const initialFoodData: SeedData = {
-    users:[
+    users: [
         {
             email: 'test1@google.com',
             fullName: 'Test One',
@@ -49,6 +51,8 @@ export const initialFoodData: SeedData = {
             price: 25,
             slug: "reina_papeada",
             stock: 50,
+            available: true,
+            category: "Comidas"
         },
         {
             title: "Empanadas de pollo",
@@ -57,6 +61,8 @@ export const initialFoodData: SeedData = {
             price: 18,
             slug: "empanadas_de_pollo",
             stock: 50,
+            available: true,
+            category: "Comidas"
         },
         {
             title: "Pasta bolognesa",
@@ -65,6 +71,8 @@ export const initialFoodData: SeedData = {
             price: 15,
             slug: "pasta_bolognesa",
             stock: 50,
+            available: true,
+            category: "Comidas"
         },
         {
             title: "Hamburguesa Smash doble",
@@ -73,6 +81,8 @@ export const initialFoodData: SeedData = {
             price: 15,
             slug: "hamburgesa_smash",
             stock: 50,
+            available: true,
+            category: "Comidas"
         },
         {
             title: "Boca burguer",
@@ -81,6 +91,8 @@ export const initialFoodData: SeedData = {
             price: 19,
             slug: "boca_burger",
             stock: 50,
+            available: true,
+            category: "Comidas"
         },
         {
             title: "Alitas BBQ O Picantes",
@@ -89,6 +101,8 @@ export const initialFoodData: SeedData = {
             price: 9,
             slug: "alitas_bbq_o_picantes",
             stock: 50,
+            available: true,
+            category: "Comidas"
         },
         {
             title: "Tenders",
@@ -97,6 +111,8 @@ export const initialFoodData: SeedData = {
             price: 7,
             slug: "tenders",
             stock: 50,
+            available: true,
+            category: "Comidas"
         },
         {
             title: "Parripapas",
@@ -105,6 +121,8 @@ export const initialFoodData: SeedData = {
             price: 8,
             slug: "parripapas",
             stock: 50,
+            available: true,
+            category: "Comidas"
         },
         {
             title: "Ensalada César",
@@ -113,6 +131,8 @@ export const initialFoodData: SeedData = {
             price: 10,
             slug: "ensalada_c_esar",
             stock: 50,
+            available: true,
+            category: "Comidas"
         },
         {
             title: "Alitas Ranch",
@@ -121,6 +141,8 @@ export const initialFoodData: SeedData = {
             price: 8.5,
             slug: "alitas_ranch",
             stock: 50,
+            available: true,
+            category: "Comidas"
         },
         {
             title: "Pollo asado con papas fritas",
@@ -129,6 +151,8 @@ export const initialFoodData: SeedData = {
             price: 40,
             slug: "pollo_asado_y_papas_fritas",
             stock: 50,
+            available: true,
+            category: "Comidas"
         },
         {
             title: "Empanadas gordon blue",
@@ -137,6 +161,8 @@ export const initialFoodData: SeedData = {
             price: 12,
             slug: "empanada_gordon_blue",
             stock: 50,
+            available: true,
+            category: "Comidas"
         },
         {
             title: "Pure de papa con muslo de pollo frito",
@@ -145,6 +171,8 @@ export const initialFoodData: SeedData = {
             price: 12,
             slug: "pure_papa_muslo_pollo_frito",
             stock: 50,
+            available: true,
+            category: "Comidas"
         },
         {
             title: "Hamburguesa Pollo Crispy",
@@ -153,6 +181,8 @@ export const initialFoodData: SeedData = {
             price: 20,
             slug: "hamburgesa_pollo_crispy",
             stock: 50,
+            available: true,
+            category: "Comidas"
         },
         {
             title: "Arepa con pescado frito",
@@ -161,6 +191,8 @@ export const initialFoodData: SeedData = {
             price: 25,
             slug: "arepa_con_pescado_frito",
             stock: 50,
+            available: true,
+            category: "Comidas"
         },
         {
             title: "Arepas fritas con queso",
@@ -169,6 +201,8 @@ export const initialFoodData: SeedData = {
             price: 10,
             slug: "arepas_fritas_con_queso",
             stock: 50,
+            available: true,
+            category: "Comidas"
         },
         {
             title: "Pasticho Familiar",
@@ -177,6 +211,8 @@ export const initialFoodData: SeedData = {
             price: 50,
             slug: "pasticho",
             stock: 50,
+            available: true,
+            category: "Comidas"
         },
         {
             title: "Hamburguesa Doble Cheese",
@@ -185,6 +221,8 @@ export const initialFoodData: SeedData = {
             price: 7,
             slug: "doble_cheese",
             stock: 50,
+            available: true,
+            category: "Comidas"
         },
         {
             title: "Pepito",
@@ -193,6 +231,8 @@ export const initialFoodData: SeedData = {
             price: 10,
             slug: "pepito",
             stock: 50,
+            available: true,
+            category: "Comidsa"
         },
         {
             title: "Club House",
@@ -201,6 +241,8 @@ export const initialFoodData: SeedData = {
             price: 7,
             slug: "club_house",
             stock: 50,
+            available: true,
+            category: "Comidas"
         },
         {
             title: "Agua Minalba",
@@ -209,6 +251,8 @@ export const initialFoodData: SeedData = {
             price: 2,
             slug: "agua_minalba",
             stock: 50,
+            available: true,
+            category: "Bebidas"
         },
         {
             title: "Malta en lata",
@@ -217,6 +261,8 @@ export const initialFoodData: SeedData = {
             price: 3,
             slug: "malta_en_lata",
             stock: 50,
+            available: true,
+            category: "Bebidas"
         },
         {
             title: "Refresco Coca-Cola",
@@ -225,6 +271,8 @@ export const initialFoodData: SeedData = {
             price: 4,
             slug: "refresco_coca_cola",
             stock: 50,
+            available: true,
+            category: "Bebidas"
         },
         {
             title: "Refresco Pepsi",
@@ -233,6 +281,8 @@ export const initialFoodData: SeedData = {
             price: 3.5,
             slug: "refresco_pepsi",
             stock: 50,
+            available: true,
+            category: "Bebidas"
         },
         {
             title: "Jugo de Naranja Natural",
@@ -241,6 +291,8 @@ export const initialFoodData: SeedData = {
             price: 2.5,
             slug: "jugo_de_naranja",
             stock: 50,
+            available: true,
+            category: "Bebidas"
         },
         {
             title: "Limonada",
@@ -249,6 +301,8 @@ export const initialFoodData: SeedData = {
             price: 2.9,
             slug: "limonada",
             stock: 50,
+            available: true,
+            category: "Bebidas"
         },
         {
             title: "Agua Minalba 1-5 litros",
@@ -257,6 +311,8 @@ export const initialFoodData: SeedData = {
             price: 3,
             slug: "agua_minalba_1.5_litros",
             stock: 50,
+            available: true,
+            category: "Bebidas"
         },
         {
             title: "Malta en botella de vidrio",
@@ -265,6 +321,8 @@ export const initialFoodData: SeedData = {
             price: 3.5,
             slug: "malta_en_botella_de_vidrio",
             stock: 50,
+            available: true,
+            category: "Bebidas"
         },
         {
             title: "Jugo de fresa",
@@ -273,6 +331,8 @@ export const initialFoodData: SeedData = {
             price: 2.5,
             slug: "jugo_fresa",
             stock: 50,
+            available: true,
+            category: "Bebidas"
         },
         {
             title: "Jugo de parchita",
@@ -281,6 +341,8 @@ export const initialFoodData: SeedData = {
             price: 2.4,
             slug: "jugo_parchita",
             stock: 50,
+            available: true,
+            category: "Bebidas"
         },
         {
             title: "Refresco Frescolita",
@@ -289,6 +351,8 @@ export const initialFoodData: SeedData = {
             price: 3.2,
             slug: "refresco_frescolita",
             stock: 50,
+            available: true,
+            category: "Bebidas"
         },
         {
             title: "Refresco Manzanita",
@@ -297,6 +361,8 @@ export const initialFoodData: SeedData = {
             price: 1.5,
             slug: "refresco_manzanita",
             stock: 50,
+            available: true,
+            category: "Bebidas"
         },
         {
             title: "Refresco 7Up",
@@ -305,6 +371,8 @@ export const initialFoodData: SeedData = {
             price: 2.3,
             slug: "refresco_7up",
             stock: 50,
+            available: true,
+            category: "Bebidas"
         },
         {
             title: "Neste sabor limon",
@@ -313,6 +381,8 @@ export const initialFoodData: SeedData = {
             price: 15,
             slug: "nestea_sabor_limon",
             stock: 50,
+            available: true,
+            category: "Bebida"
         },
         {
             title: "Barquilla de chocolate",
@@ -321,6 +391,8 @@ export const initialFoodData: SeedData = {
             price: 1.5,
             slug: "barquilla_chocolate",
             stock: 50,
+            available: true,
+            category: "Postres"
         },
         {
             title: "Barquilla de fresa",
@@ -329,6 +401,8 @@ export const initialFoodData: SeedData = {
             price: 1.5,
             slug: "barquilla_fresa",
             stock: 50,
+            available: true,
+            category: "Postres"
         },
         {
             title: "Barquilla de mantecado",
@@ -337,6 +411,8 @@ export const initialFoodData: SeedData = {
             price: 1.5,
             slug: "barquilla_mantecado",
             stock: 50,
+            available: true,
+            category: "Postres"
         },
         {
             title: "Barquilla de banana",
@@ -345,6 +421,8 @@ export const initialFoodData: SeedData = {
             price: 1.5,
             slug: "barquilla_banana",
             stock: 50,
+            available: true,
+            category: "Postres"
         },
         {
             title: "Barquilla ron con pasa",
@@ -353,6 +431,8 @@ export const initialFoodData: SeedData = {
             price: 1.5,
             slug: "barquilla_ron_con_pasa",
             stock: 50,
+            available: true,
+            category: "Postres"
         },
         {
             title: "Quesillo",
@@ -361,6 +441,8 @@ export const initialFoodData: SeedData = {
             price: 5,
             slug: "quesillo",
             stock: 50,
+            available: true,
+            category: "Postres"
         },
         {
             title: "Torta de queso",
@@ -369,6 +451,8 @@ export const initialFoodData: SeedData = {
             price: 20,
             slug: "torta_de_queso",
             stock: 50,
+            available: true,
+            category: "Postres"
         },
         {
             title: "Marquesa de chocolate",
@@ -377,6 +461,8 @@ export const initialFoodData: SeedData = {
             price: 8.5,
             slug: "marquesa_chocolate",
             stock: 50,
+            available: true,
+            category: "Postres"
         },
         {
             title: "Brownie de chocolate",
@@ -385,6 +471,8 @@ export const initialFoodData: SeedData = {
             price: 6.2,
             slug: "brownie_chocolate",
             stock: 50,
+            available: true,
+            category: "Postres"
         },
-]
+    ]
 }

@@ -29,4 +29,8 @@ export class CreateFoodDto {
     @IsOptional()
     @IsBoolean()
     available?: boolean;
+
+    @IsString()
+    @MinLength(1)
+    category: string;
 }
