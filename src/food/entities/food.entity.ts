@@ -38,6 +38,12 @@ export class Food {
     })
     stock: number;
 
+    @Column({
+        type: "boolean",
+        default: true
+    })
+    available: boolean;
+
     @OneToMany(
         () => FoodImage,
         (foodImage) => foodImage.food,
