@@ -123,7 +123,8 @@ export class OrdersService {
       relations: {
         items: {
           food: true
-        }
+        },
+        user: true,
       }
     });
 
