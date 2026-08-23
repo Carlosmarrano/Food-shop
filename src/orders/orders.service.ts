@@ -14,31 +14,31 @@ export class OrdersService {
 
   constructor(
     @InjectRepository(Food)
-      private readonly foodRepository: Repository<Food>,
+    private readonly foodRepository: Repository<Food>,
 
     @InjectRepository(Order)
-      private readonly orderRepository: Repository<Order>,
+    private readonly orderRepository: Repository<Order>,
 
     @InjectRepository(OrderItem)
     private readonly orderItemRepository: Repository<OrderItem>
-  ){}
+  ) { }
 
   async create(createOrderDto: CreateOrderDto, user: User) {
-    
-    try{
+
+    try {
       const { items } = createOrderDto;
 
       let totalAmount = 0;
       const orderItemsToSave = [];
 
-      for(const item of items){
+      for (const item of items) {
         const food = await this.foodRepository.findOneBy({ id: item.foodId });
 
-        if(!food){
+        if (!food) {
           throw new BadRequestException(`The product with ID ${item.foodId} does not exist`)
         }
 
-        if(food.stock < item.quantity) {
+        if (food.stock < item.quantity) {
           throw new BadRequestException(`Sorry, empty stock for: ${food.title}`)
         }
 
@@ -48,14 +48,14 @@ export class OrdersService {
         totalAmount += (food.price * item.quantity);
 
         const orderItem = this.orderItemRepository.create({
-        quantity: item.quantity,
-        food: food
-      });
-      orderItemsToSave.push(orderItem);
-    }
+          quantity: item.quantity,
+          food: food
+        });
+        orderItemsToSave.push(orderItem);
+      }
 
       const order = this.orderRepository.create({
-        status:  foodStatus.pending,
+        status: foodStatus.pending,
         total: totalAmount,
         items: orderItemsToSave,
         user: user,
@@ -65,7 +65,7 @@ export class OrdersService {
 
       return order;
 
-    } catch(error){
+    } catch (error) {
       if (error instanceof BadRequestException) {
         throw error;
       }
@@ -78,7 +78,7 @@ export class OrdersService {
   async findOrder(id: string) {
 
     const order = await this.orderRepository.findOne({
-      where: {id},
+      where: { id },
       relations: {
         items: {
           food: true
@@ -97,7 +97,7 @@ export class OrdersService {
   async findAllOrderByUser(userId: string) {
     return await this.orderRepository.find({
       where: {
-        user: {id: userId}
+        user: { id: userId }
       },
       order: {
         createdAt: "DESC"
@@ -105,10 +105,21 @@ export class OrdersService {
     });
   }
 
+  async findAll() {
+    const orders = await this.orderRepository.find({
+      relations: {
+        items: { food: true },
+        user: true,
+      },
+      order: { createdAt: "DESC" },
+    });
+    return orders;
+  }
+
   async update(id: string, updateOrderDto: UpdateOrderDto, user: User) {
 
     const order = await this.orderRepository.findOne({
-      where: {id},
+      where: { id },
       relations: {
         items: {
           food: true
@@ -116,7 +127,7 @@ export class OrdersService {
       }
     });
 
-    if (!order){
+    if (!order) {
       throw new NotFoundException(`The order with ID ${id} does not exist`)
     }
 
@@ -124,14 +135,14 @@ export class OrdersService {
       throw new BadRequestException(`You cannot modify an order that is already ${order.status}`)
     }
 
-    if(user.roles.includes(ValidRoles.delivery) ) {
-      if( updateOrderDto.status !== foodStatus.inDelivery && updateOrderDto.status !== foodStatus.delivered) {
+    if (user.roles.includes(ValidRoles.delivery)) {
+      if (updateOrderDto.status !== foodStatus.inDelivery && updateOrderDto.status !== foodStatus.delivered) {
         throw new BadRequestException("The delivery driver can only change the status to IN_DELIVERY or DELIVERED")
       }
     }
 
-    if(updateOrderDto.status === foodStatus.cancelled) {
-      for(const item of order.items) {
+    if (updateOrderDto.status === foodStatus.cancelled) {
+      for (const item of order.items) {
         const food = item.food;
 
         food.stock += item.quantity;
@@ -140,26 +151,26 @@ export class OrdersService {
       }
     }
 
-    if(updateOrderDto.status) {
+    if (updateOrderDto.status) {
       order.status = updateOrderDto.status;
     }
 
-    try{
+    try {
       await this.orderRepository.save(order);
-      
+
       return order;
-    } catch(error){
+    } catch (error) {
       throw new InternalServerErrorException("Unexpected error updating order")
     }
   }
 
   async remove(id: string) {
-    
+
     const order = await this.findOrder(id);
 
     await this.orderRepository.remove(order);
 
-    return { 
+    return {
       message: `The order ${id} and its concepts have been successfully deleted`
     }
   }

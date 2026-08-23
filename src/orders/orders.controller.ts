@@ -17,6 +17,12 @@ export class OrdersController {
     return this.ordersService.create(createOrderDto, user);
   }
 
+  @Get('admin')
+  @Auth(ValidRoles.admin) 
+  findAll() {
+    return this.ordersService.findAll();
+  }
+
   @Get(':id')
   @Auth(ValidRoles.admin, ValidRoles.delivery)
   findOne(@Param('id', ParseUUIDPipe) id: string) {
