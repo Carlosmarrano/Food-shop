@@ -24,7 +24,7 @@ export class OrdersController {
   }
 
   @Get(':id')
-  @Auth(ValidRoles.admin, ValidRoles.delivery)
+  @Auth(ValidRoles.admin, ValidRoles.delivery, ValidRoles.user)
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.ordersService.findOrder(id);
   }
