@@ -33,7 +33,7 @@ export class AuthService {
 
       return {
         ...user,
-        toekn: this.getJwtToken({id: user.id})
+        token: this.getJwtToken({id: user.id})
       };
     } catch( error) {
       this.handleDBError(error);

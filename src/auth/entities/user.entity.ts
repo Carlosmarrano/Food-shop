@@ -30,12 +30,15 @@ export class User {
     })  
     isActive: boolean;
 
+    @Column({type: "text", nullable: true})
+    phone?: string;
+
     @Column({
         type: 'text',
         array: true,
-        default: ['user']
+        default: ['user'],
     })
-    roles: string[]
+    roles: string[];
 
     @OneToMany(
         () => Food,
