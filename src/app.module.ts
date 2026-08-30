@@ -28,6 +28,7 @@ import {join} from "path";
         password: process.env.DB_PASSWORD,
         autoLoadEntities: true,
         synchronize: true,
+        ssl: process.env.DB_HOST !== "localhost" && process.env.DB_HOST !== "127.0.0.1" ? { rejectUnauthorized: false } : false,
     }),
     FoodModule,
 
