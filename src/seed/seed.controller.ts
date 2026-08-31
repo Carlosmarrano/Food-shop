@@ -11,7 +11,6 @@ export class SeedController {
   ) { }
 
   @Get('food')
-  @Auth()
   executeSeedFood(@Query('key') key: string) {
 
     const seedSecret = this.configService.get("SEED_SECRET") || "mi_clave_Secreta_123";
