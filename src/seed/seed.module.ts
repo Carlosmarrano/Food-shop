@@ -6,10 +6,11 @@ import { AuthModule } from 'src/auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/auth/entities/user.entity';
 import { Order } from 'src/orders/entities/order.entity';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   controllers: [SeedController],
-  providers: [SeedService],
+  providers: [SeedService, ConfigService],
   imports: [FoodModule, AuthModule, TypeOrmModule.forFeature([User, Order])]
 })
 export class SeedModule {}
