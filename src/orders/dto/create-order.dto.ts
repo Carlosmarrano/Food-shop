@@ -22,7 +22,7 @@ export class CreateOrderDto {
     items: OrderItemDto[];
 
     @IsString()
-    adress: string;
+    address: string;
 
     @IsString()
     @IsOptional()

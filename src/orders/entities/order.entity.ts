@@ -30,7 +30,7 @@ export class Order {
     total: number;
 
     @Column("text")
-    addres: string;
+    address: string;
 
     @Column("text", {nullable: true})
     reference?: string;

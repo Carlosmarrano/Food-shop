@@ -26,7 +26,7 @@ export class OrdersService {
   async create(createOrderDto: CreateOrderDto, user: User) {
 
     try {
-      const { items } = createOrderDto;
+      const { items, address, reference, phone } = createOrderDto;
 
       let totalAmount = 0;
       const orderItemsToSave = [];
@@ -59,6 +59,9 @@ export class OrdersService {
         total: totalAmount,
         items: orderItemsToSave,
         user: user,
+        address: address,
+        reference: reference,
+        phone: phone,
       });
 
       await this.orderRepository.save(order);
