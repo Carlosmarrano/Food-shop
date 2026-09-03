@@ -29,6 +29,15 @@ export class Order {
     })
     total: number;
 
+    @Column("text")
+    addres: string;
+
+    @Column("text", {nullable: true})
+    reference?: string;
+
+    @Column("text")
+    phone: string;
+
     @CreateDateColumn({
         type: "timestamp",
         default: () => "CURRENT_TIMESTAMP"
