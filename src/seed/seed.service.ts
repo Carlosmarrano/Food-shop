@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { FoodService } from '../food/food.service';
 import { initialFoodData } from './data/FoodSeed-data';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/auth/entities/user.entity';
+import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { Order } from 'src/orders/entities/order.entity';
 

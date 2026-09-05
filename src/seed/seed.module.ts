@@ -4,7 +4,7 @@ import {  SeedController } from './seed.controller';
 import { FoodModule } from 'src/food/food.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'src/auth/entities/user.entity';
+import { User } from 'src/users/entities/user.entity';
 import { Order } from 'src/orders/entities/order.entity';
 import { ConfigService } from '@nestjs/config';
 

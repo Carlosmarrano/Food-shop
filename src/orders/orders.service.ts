@@ -6,7 +6,7 @@ import { Food } from 'src/food/entities/food.entity';
 import { Repository } from 'typeorm';
 import { foodStatus, Order } from './entities/order.entity';
 import { OrderItem } from './entities/order-item.entity';
-import { User } from 'src/auth/entities/user.entity';
+import { User } from 'src/users/entities/user.entity';
 import { ValidRoles } from 'src/auth/interface/valid-roles';
 
 @Injectable()

@@ -1,11 +1,11 @@
 import { Controller, Post, Body, Get, UseGuards} from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateUserDto } from './dto/create-user-dto';
+import { CreateUserDto } from '../users/dto/create-user-dto';
 import { LoginUserDto } from './dto/login-user-dto';
 import { AuthGuard } from '@nestjs/passport';
 
 import { GetUser } from './decorators/get-user.decorator';
-import { User } from './entities/user.entity';
+import { User } from '../users/entities/user.entity';
 import { RawHeaders } from './decorators/raw-headers.decorator';
 import { UserRoleGuard } from './guards/user-role/user-role.guard';
 import { RoleProtected } from './decorators/role-protected/role-protected.decorator';

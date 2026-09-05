@@ -5,7 +5,7 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { ValidRoles } from 'src/auth/interface/valid-roles';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
-import { User } from 'src/auth/entities/user.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Controller('orders')
 export class OrdersController {

@@ -7,7 +7,7 @@ import { DataSource, Repository } from 'typeorm';
 import { validate as isUUID } from 'uuid';
 import { FoodImage } from './entities/food_image.entity';
 import { PaginationDto } from 'src/common/pagination-dto';
-import { User } from 'src/auth/entities/user.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class FoodService {

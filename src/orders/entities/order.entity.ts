@@ -1,4 +1,4 @@
-import { User } from "src/auth/entities/user.entity";
+import { User } from "src/users/entities/user.entity";
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { OrderItem } from "./order-item.entity";
 

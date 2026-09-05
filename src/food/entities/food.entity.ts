@@ -1,6 +1,6 @@
 import { BeforeInsert, BeforeUpdate, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { FoodImage } from "./food_image.entity";
-import { User } from "src/auth/entities/user.entity";
+import { User } from "src/users/entities/user.entity";
 
 @Entity({ name: 'foods' })
 export class Food {
