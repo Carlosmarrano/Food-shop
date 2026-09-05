@@ -1,9 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user-dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -13,8 +14,21 @@ export class UsersService {
 
   ) { }
 
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  async create(createUserDto: CreateUserDto) {
+    const { password, email } = createUserDto;
+
+    const existinUser = await this.userRepository.findOneBy({ email });
+
+    if (existinUser) {
+      throw new BadRequestException("The email is already registered");
+    };
+
+    const newUser = this.userRepository.create({
+      ...createUserDto,
+      password: bcrypt.hashSync(password, 10),
+    });
+
+    await this.userRepository.save(newUser);
   }
 
   async findAll() {
@@ -23,9 +37,9 @@ export class UsersService {
     });
   };
 
-  findOne(id: string) {
+  async findOne(id: string) {
 
-    const user = this.userRepository.findOneBy({ id });
+    const user = await this.userRepository.findOneBy({ id });
 
     if (!user) {
       throw new NotFoundException(`User with ${id} not found`);
