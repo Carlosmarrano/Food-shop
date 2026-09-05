@@ -26,6 +26,10 @@ export class UsersController {
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }
+  @Patch(':id/suspend')
+  suspend(@Param('id') id: string) {
+    return this.usersService.suspend(id);
+  }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

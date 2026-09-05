@@ -49,14 +49,23 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    const user = await this.userRepository.preload({ id: id, ...updateUserDto });
+    const user = await this.userRepository.preload({ id, ...updateUserDto });
 
     if (!user) {
       throw new NotFoundException(`User with ${id} not found to update`);
     };
 
     return await this.userRepository.save(user);
-  }
+  };
+
+  async suspend(id: string) {
+    const user = await this.findOne(id);
+
+    user.roles = ["Suspended"];
+
+    return await this.userRepository.save(user);
+
+  };
 
   remove(id: number) {
     return `This action removes a #${id} user`;
