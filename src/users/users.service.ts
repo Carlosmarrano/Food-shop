@@ -42,7 +42,7 @@ export class UsersService {
     const user = await this.userRepository.findOneBy({ id });
 
     if (!user) {
-      throw new NotFoundException(`User with ${id} not found`);
+      throw new NotFoundException(`User with id ${id} not found`);
     }
 
     return user;
@@ -52,7 +52,7 @@ export class UsersService {
     const user = await this.userRepository.preload({ id, ...updateUserDto });
 
     if (!user) {
-      throw new NotFoundException(`User with ${id} not found to update`);
+      throw new NotFoundException(`User with id ${id} not found to update`);
     };
 
     return await this.userRepository.save(user);
@@ -67,7 +67,13 @@ export class UsersService {
 
   };
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
+  async remove(id: string) {
+    const result = await this.userRepository.delete(id);
+
+    if (result.affected === 0) {
+      throw new NotFoundException(`The user with id ${id} to be deleted could not be found.`)
+    }
+
+    return { message: `User with id ${id} sucessfully deleted` };
+  };
 }
