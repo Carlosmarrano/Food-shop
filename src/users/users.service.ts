@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { CreateUserDto } from './dto/create-user-dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { CreateAdminUserDto } from './dto/create-admin-user-dto';
 
 @Injectable()
 export class UsersService {
@@ -14,8 +14,8 @@ export class UsersService {
 
   ) { }
 
-  async create(createUserDto: CreateUserDto) {
-    const { password, email } = createUserDto;
+  async create(createAdminUserDto: CreateAdminUserDto) {
+    const { name, email, role } = createAdminUserDto;
 
     const existinUser = await this.userRepository.findOneBy({ email });
 
@@ -23,12 +23,20 @@ export class UsersService {
       throw new BadRequestException("The email is already registered");
     };
 
-    const newUser = this.userRepository.create({
-      ...createUserDto,
-      password: bcrypt.hashSync(password, 10),
-    });
+    const tempPassword = "Password123!";
+    const hashedPassword = await bcrypt.hash(tempPassword, 10);
 
-    await this.userRepository.save(newUser);
+    const newUser = this.userRepository.create({
+      fullName: name,
+      email,
+      roles: [role ?? "USER"],
+      password: hashedPassword,
+    })
+
+    const savedUser = await this.userRepository.save(newUser);
+
+    delete savedUser.password;
+    return savedUser;
   }
 
   async findAll() {
