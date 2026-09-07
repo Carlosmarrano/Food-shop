@@ -7,6 +7,7 @@ import { SeedModule } from './seed/seed.module';
 import { AuthModule } from './auth/auth.module';
 import { OrdersModule } from './orders/orders.module';
 import { UsersModule } from './users/users.module';
+import { DeliveryModule } from './delivery/delivery.module';
 
 @Module({
   imports: [
@@ -37,6 +38,8 @@ import { UsersModule } from './users/users.module';
     OrdersModule,
 
     UsersModule,
+
+    DeliveryModule,
   ],
 
 })
