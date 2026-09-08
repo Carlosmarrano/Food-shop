@@ -1,6 +1,7 @@
 import { User } from "src/users/entities/user.entity";
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { OrderItem } from "./order-item.entity";
+import { Delivery } from "src/delivery/entities/delivery.entity";
 
 export enum foodStatus {
     pending = "PENDING",
@@ -8,17 +9,17 @@ export enum foodStatus {
     inDelivery = "IN_DELIVERY",
     delivered = "DELIVERED",
     cancelled = "CANCELLED",
-} 
+}
 
-@Entity({ name: "orders"})
+@Entity({ name: "orders" })
 export class Order {
 
     @PrimaryGeneratedColumn('uuid')
     id: string;
-    
+
     @Column({
         type: "enum",
-        enum: foodStatus, 
+        enum: foodStatus,
         default: foodStatus.pending
     })
     status: foodStatus;
@@ -32,7 +33,7 @@ export class Order {
     @Column("text")
     address: string;
 
-    @Column("text", {nullable: true})
+    @Column("text", { nullable: true })
     reference?: string;
 
     @Column("text")
@@ -45,9 +46,18 @@ export class Order {
     createdAt: Date;
 
     @ManyToOne(
+        () => Delivery,
+        (delivery) => delivery.orders,
+        {
+            nullable: true,
+            onDelete: "SET NULL"
+        })
+    delivery?: Delivery;
+
+    @ManyToOne(
         () => User,
         (user) => user.id,
-        {eager: true}
+        { eager: true }
     )
     user: User;
 
@@ -58,5 +68,5 @@ export class Order {
             cascade: true,
             eager: true
         })
-        items: OrderItem[];
+    items: OrderItem[];
 }
