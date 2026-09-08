@@ -27,6 +27,34 @@ export class Delivery {
     })
     status: ShiftStatus;
 
+    @Column({
+        type: "decimal",
+        nullable: true,
+        precision: 10,
+        scale: 7,
+    })
+    currentLat: string;
+
+    @Column({
+        type: "decimal",
+        nullable: true,
+        precision: 10,
+        scale: 7,
+    })
+    currentLng: string;
+
+    @Column({
+        type: "double precision",
+        default: 5.0
+    })
+    rating: number;
+
+    @Column({
+        type: "int",
+        default: 0
+    })
+    totalTrips: number;
+
     @OneToOne(() => User)
     @JoinColumn()
     user: User;
