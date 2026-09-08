@@ -6,13 +6,15 @@ import { Delivery, ShiftStatus } from './entities/delivery.entity';
 import { Repository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { ValidRoles } from 'src/auth/interface/valid-roles';
+import { foodStatus, Order } from 'src/orders/entities/order.entity';
 
 @Injectable()
 export class DeliveryService {
 
   constructor(
     @InjectRepository(Delivery) private readonly deliveryRepository: Repository<Delivery>,
-    @InjectRepository(User) private readonly userRepository: Repository<User>
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(Order) private readonly orderRepository: Repository<Order>,
   ) { }
 
   async create(createDeliveryDto: CreateDeliveryDto) {
@@ -48,7 +50,35 @@ export class DeliveryService {
 
     await this.deliveryRepository.save(savedDelivery);
     return savedDelivery;
-  }
+  };
+
+  async changeShiftStatus(id: string, updatedDeliveryDto: UpdateDeliveryDto) {
+
+    const { status } = updatedDeliveryDto;
+
+    const profile = await this.deliveryRepository.findOne({
+      where: { id },
+    });
+
+    if (!profile) {
+      throw new NotFoundException(`profile with id ${id} not found.`);
+    };
+
+    if (status === ShiftStatus.offline) {
+      const activeOrder = await this.orderRepository.findOne({
+        where: { delivery: { id }, status: foodStatus.inDelivery },
+      });
+
+      if (activeOrder) {
+        throw new BadRequestException("You cannot change your status to OFFLINE while you have an order en route.");
+      };
+    };
+
+    profile.status = status;
+
+    await this.deliveryRepository.save(profile);
+    return profile;
+  };
 
   findAll() {
     return `This action returns all delivery`;
