@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { ValidRoles } from 'src/auth/interface/valid-roles';
 import { foodStatus, Order } from 'src/orders/entities/order.entity';
+import { UpdateLocationDto } from './dto/update-location.dto';
 
 @Injectable()
 export class DeliveryService {
@@ -78,6 +79,27 @@ export class DeliveryService {
 
     await this.deliveryRepository.save(profile);
     return profile;
+  };
+
+  async updateLocation(id: string, updateLocationDto: UpdateLocationDto) {
+
+    const { currentLat, currentLng } = updateLocationDto;
+
+    const profile = await this.deliveryRepository.findOne({
+      where: { id },
+    });
+
+    if (!profile) {
+      throw new NotFoundException(`profile with id ${id} not found.`)
+    };
+
+    if (profile.status === ShiftStatus.offline) {
+      throw new BadRequestException("It is not possible to connect to GPS when you are offline");
+    };
+
+    await this.deliveryRepository.update(id, { currentLat, currentLng });
+
+    return { success: true };
   };
 
   findAll() {
