@@ -25,7 +25,7 @@ export class Delivery {
         enum: ShiftStatus,
         default: ShiftStatus.offline,
     })
-    status: ShiftStatus
+    status: ShiftStatus;
 
     @OneToOne(() => User)
     @JoinColumn()
