@@ -33,4 +33,32 @@ export class DashboardService {
             cancelledOrders,
         };
     };
+
+    async getWeeklySales() {
+
+        const rawSales = await this.orderRepository.createQueryBuilder("order")
+            .innerJoin("order.items", "item")
+            .innerJoin("item.food", "food")
+            .select("food.title", "dish")
+            .addSelect('SUM(item.price * item.quantity)', "totalSalesRaw")
+            .groupBy("food.title")
+            .orderBy('"TotalSalesRaw"', 'DESC')
+            .limit(5).getRawMany()
+
+        const grandTotal = rawSales.reduce(
+            (sum, item) => sum + Number(item.totalSalesRaw),
+            0,
+        );
+
+        return rawSales.map((sale) => {
+            const salesValue = Number(sale.totalSalesRaw);
+            const percentage = grandTotal > 0 ? Math.round((salesValue / grandTotal) * 100) : 0;
+
+            return {
+                dish: sale.dish,
+                totalSales: `$${salesValue.toFixed(2)}`,
+                widthPercentage: `${percentage}%`,
+            };
+        });
+    }
 }
