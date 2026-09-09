@@ -157,11 +157,66 @@ export class DeliveryService {
       where: { status: ShiftStatus.online },
       order: {
         updatedAt: "DESC",
-      }
+      },
     });
 
     return availableDrivers;
-  }
+  };
+
+  async getDriverMetrics(deliveryId: string) {
+
+    const driver = await this.deliveryRepository.findOne({
+      where: { id: deliveryId },
+    });
+
+    if (!driver) {
+      throw new NotFoundException(`Delivery with id ${deliveryId} not found.`)
+    };
+
+    const [completedOrders, activeOrders, cancelledOrders, totalOrders] = await Promise.all([
+
+      this.orderRepository.count({
+        where: {
+          delivery: { id: deliveryId },
+          status: foodStatus.delivered
+        },
+      }),
+
+      this.orderRepository.count({
+        where: {
+          delivery: { id: deliveryId },
+          status: foodStatus.inDelivery
+        },
+      }),
+
+      this.orderRepository.count({
+        where: {
+          delivery: { id: deliveryId },
+          status: foodStatus.cancelled
+        },
+      }),
+
+      this.orderRepository.count({
+        where: {
+          delivery: { id: deliveryId },
+        },
+      }),
+    ]);
+
+    const completionRate = totalOrders > 0 ? parseFloat(((completedOrders / totalOrders) * 100).toFixed(2)) : 0;
+
+    return {
+      driverId: driver.id,
+      currentStatus: driver.status,
+      metrics: {
+        totalOrders,
+        completedOrders,
+        activeOrders,
+        cancelledOrders,
+        completionRatePercentage: completionRate,
+      },
+    };
+  };
 
   findAll() {
     return `This action returns all delivery`;
