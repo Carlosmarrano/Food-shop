@@ -151,6 +151,18 @@ export class DeliveryService {
     });
   };
 
+  async getAvailableDrivers(): Promise<Delivery[]> {
+
+    const availableDrivers = await this.deliveryRepository.find({
+      where: { status: ShiftStatus.online },
+      order: {
+        updatedAt: "DESC",
+      }
+    });
+
+    return availableDrivers;
+  }
+
   findAll() {
     return `This action returns all delivery`;
   }

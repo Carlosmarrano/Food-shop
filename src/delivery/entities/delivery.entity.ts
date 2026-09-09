@@ -1,6 +1,6 @@
 import { Order } from "src/orders/entities/order.entity";
 import { User } from "src/users/entities/user.entity";
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 export enum ShiftStatus {
     offline = "OFFLINE",
@@ -54,6 +54,9 @@ export class Delivery {
         default: 0
     })
     totalTrips: number;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
 
     @OneToOne(() => User)
     @JoinColumn()
