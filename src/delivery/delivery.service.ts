@@ -3,11 +3,12 @@ import { CreateDeliveryDto } from './dto/create-delivery.dto';
 import { UpdateDeliveryDto } from './dto/update-delivery.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Delivery, ShiftStatus } from './entities/delivery.entity';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { ValidRoles } from 'src/auth/interface/valid-roles';
 import { foodStatus, Order } from 'src/orders/entities/order.entity';
 import { UpdateLocationDto } from './dto/update-location.dto';
+import { AsignOrderDto } from './dto/asing-order.dto';
 
 @Injectable()
 export class DeliveryService {
@@ -16,6 +17,7 @@ export class DeliveryService {
     @InjectRepository(Delivery) private readonly deliveryRepository: Repository<Delivery>,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     @InjectRepository(Order) private readonly orderRepository: Repository<Order>,
+    @InjectRepository(DataSource) private readonly dataSource: DataSource,
   ) { }
 
   async create(createDeliveryDto: CreateDeliveryDto) {
@@ -100,6 +102,53 @@ export class DeliveryService {
     await this.deliveryRepository.update(id, { currentLat, currentLng });
 
     return { success: true };
+  };
+
+  async asingOrder(orderId: string, asingOrder: AsignOrderDto) {
+
+    const { deliveryId } = asingOrder;
+
+    const order = await this.orderRepository.findOne({
+      where: { id: orderId },
+      relations: { delivery: true },
+    });
+
+    if (!order) {
+      throw new NotFoundException(`Order with id ${orderId} not found.`);
+    };
+
+    if (order.delivery) {
+      throw new ConflictException("Esta orden ya posee un repartidor asignado")
+    }
+
+    if (order.status !== foodStatus.pending) {
+      throw new ConflictException("Solo se pueden asignar ordenes en estado de pending");
+    };
+
+    const delivery = await this.deliveryRepository.findOne({
+      where: { id: deliveryId },
+    });
+
+    if (!delivery) {
+      throw new NotFoundException(`Delivery with id ${deliveryId} not found`);
+    };
+
+
+    if (delivery.status !== ShiftStatus.online) {
+      throw new ConflictException("El repartidor no está disponible para recibir órdenes en este momento");
+    };
+
+    return await this.dataSource.transaction(async (transactionalEntityManager) => {
+
+      order.delivery = delivery;
+      order.status = foodStatus.inDelivery;
+      delivery.status = ShiftStatus.in_route;
+
+      await transactionalEntityManager.save(order);
+      await transactionalEntityManager.save(delivery);
+
+      return order;
+    });
   };
 
   findAll() {
