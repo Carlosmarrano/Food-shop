@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { OrdersModule } from './orders/orders.module';
 import { UsersModule } from './users/users.module';
 import { DeliveryModule } from './delivery/delivery.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -40,6 +41,8 @@ import { DeliveryModule } from './delivery/delivery.module';
     UsersModule,
 
     DeliveryModule,
+
+    DashboardModule,
   ],
 
 })
