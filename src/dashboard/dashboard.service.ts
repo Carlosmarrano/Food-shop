@@ -40,9 +40,9 @@ export class DashboardService {
             .innerJoin("order.items", "item")
             .innerJoin("item.food", "food")
             .select("food.title", "dish")
-            .addSelect('SUM(item.price * item.quantity)', "totalSalesRaw")
+            .addSelect('SUM(food.price * item.quantity)', "totalSalesRaw")
             .groupBy("food.title")
-            .orderBy('"TotalSalesRaw"', 'DESC')
+            .orderBy('SUM(food.price * item.quantity)', 'DESC')
             .limit(5).getRawMany()
 
         const grandTotal = rawSales.reduce(
@@ -50,13 +50,13 @@ export class DashboardService {
             0,
         );
 
-        return rawSales.map((sale) => {
-            const salesValue = Number(sale.totalSalesRaw);
-            const percentage = grandTotal > 0 ? Math.round((salesValue / grandTotal) * 100) : 0;
+        return rawSales.map((item) => {
+            const totalSalesNum = Number(item.totalSalesRaw);
+            const percentage = grandTotal > 0 ? Math.round((totalSalesNum / grandTotal) * 100) : 0;
 
             return {
-                dish: sale.dish,
-                totalSales: `$${salesValue.toFixed(2)}`,
+                dish: item.dish,
+                totalSales: `$${totalSalesNum.toFixed(2)}`,
                 widthPercentage: `${percentage}%`,
             };
         });
