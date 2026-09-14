@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Delivery, ShiftStatus } from 'src/delivery/entities/delivery.entity';
 import { foodStatus, Order } from 'src/orders/entities/order.entity';
 import { Repository } from 'typeorm';
 
@@ -8,30 +9,38 @@ export class DashboardService {
 
     constructor(
         @InjectRepository(Order) private readonly orderRepository: Repository<Order>,
+        @InjectRepository(Delivery) private readonly deliveryRepository: Repository<Delivery>,
     ) { }
 
     async getGlobalMetrics() {
 
-        const totalOrders = await this.orderRepository.count();
+        const DailyRevenue = await this.orderRepository.createQueryBuilder("order")
+            .select("SUM(order.total)", "sum")
+            .where("order.status = :status", { status: foodStatus.delivered })
+            .getRawOne();
 
-        const completedOrders = await this.orderRepository.count({
-            where: { status: foodStatus.delivered },
+        const activeOrdersCount = await this.orderRepository.count({
+            where: { status: foodStatus.pending },
         });
 
-        const activeOrders = await this.orderRepository.count({
-            where: { status: foodStatus.pending }
-        })
-
-        const cancelledOrders = await this.orderRepository.count({
-            where: { status: foodStatus.cancelled },
+        const ActiveDelivery = await this.deliveryRepository.count({
+            where: { status: ShiftStatus.online },
         });
 
-        return {
-            totalOrders,
-            completedOrders,
-            activeOrders,
-            cancelledOrders,
-        };
+        return [
+            {
+                title: "INGRESOS DEL DÍA",
+                value: `$${Number(DailyRevenue?.sum || 0).toFixed(2)}`,
+            },
+            {
+                title: "PEDIDOS EN RUTA",
+                value: `${activeOrdersCount} Activos`,
+            },
+            {
+                title: "REPARTIDORES CONECTADOS",
+                value: `${ActiveDelivery} Motorizados`,
+            },
+        ];
     };
 
     async getWeeklySales() {
