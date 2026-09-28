@@ -8,8 +8,8 @@ export const CloudinaryProvider: Provider = {
     useFactory: (configService: ConfigService) => {
         return CloudinaryAPI.config({
             cloud_name: configService.get("YourCloudinaryName"),
-            api_key: configService.get("YourCloudinaryName"),
-            api_secret: configService.get("YourCloudinaryName"),
+            api_key: configService.get("YourCloudinaryKey"),
+            api_secret: configService.get("YourCloudinaryApiSecret"),
         });
     },
     inject: [ConfigService],
