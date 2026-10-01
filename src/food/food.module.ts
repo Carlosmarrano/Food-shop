@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Food } from './entities/food.entity';
 import { FoodImage } from './entities/food_image.entity';
 import { AuthModule } from 'src/auth/auth.module';
+import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
 
 
 @Module({
@@ -12,7 +13,8 @@ import { AuthModule } from 'src/auth/auth.module';
   providers: [FoodService],
   imports: [
     TypeOrmModule.forFeature([Food, FoodImage]),
-    AuthModule
+    AuthModule,
+    CloudinaryModule
   ],
   exports: [FoodService, TypeOrmModule]
 })
