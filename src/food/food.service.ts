@@ -8,6 +8,8 @@ import { validate as isUUID } from 'uuid';
 import { FoodImage } from './entities/food_image.entity';
 import { PaginationDto } from 'src/common/pagination-dto';
 import { User } from 'src/users/entities/user.entity';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { UploadedFileInterface } from 'src/common/interface/file.interface';
 
 @Injectable()
 export class FoodService {
@@ -21,40 +23,41 @@ export class FoodService {
     @InjectRepository(FoodImage)
     private readonly foodImageRepository: Repository<FoodImage>,
 
-    private readonly dataSource: DataSource
-  ) {}
+    private readonly dataSource: DataSource,
 
-  async create(createFoodDto: CreateFoodDto, user: User) {
-    
-    try {
-      const { images = [], ...foodDetails } = createFoodDto;
+    private readonly cloudinaryService: CloudinaryService
+  ) { }
 
-      const food = this.foodRepository.create({
-        ...foodDetails,
-        images: images.map( image => this.foodImageRepository.create({ url: image}) ),
-        user
-      });
+  async create(createFoodDto: CreateFoodDto, user: User, file?: UploadedFileInterface) {
 
-      await this.foodRepository.save(food);
+    let imageUrls: string[] = createFoodDto.images || [];
 
-      return {...food, images};
-    } catch (error) {
-      this.handleDBExceptions(error);
+    if (file) {
+      const uploadResult = await this.cloudinaryService.uploadImageToCloudinary(file) as { secure_url: string };
+      imageUrls.push(uploadResult.secure_url);
     }
+
+    const food = this.foodRepository.create({
+      ...createFoodDto,
+      images: imageUrls.map((url) => ({ url })),
+      user,
+    });
+
+    await this.foodRepository.save(food);
   }
 
   async findAll(paginationDto: PaginationDto) {
-    const {limit = 10, offset = 0} = paginationDto;
+    const { limit = 10, offset = 0 } = paginationDto;
 
     const foods = await this.foodRepository.find({
       take: limit,
       skip: offset,
-      relations:{
+      relations: {
         images: true
       }
     })
 
-    return foods.map( food => ({
+    return foods.map(food => ({
       ...food,
       images: food.images.map(img => img.url)
     }))
@@ -63,21 +66,21 @@ export class FoodService {
   async findOne(term: string) {
     let food: Food;
 
-    if(isUUID(term) ) {
+    if (isUUID(term)) {
       food = await this.foodRepository.findOneBy({ id: term });
     } else {
       const queryBuilder = this.foodRepository.createQueryBuilder('food');
 
       food = await queryBuilder
-      .where('UPPER(title) =:title or slug =:slug', {
-        title: term.toUpperCase(),
-        slug: term.toLowerCase(),
-      }).leftJoinAndSelect('food.images', 'food_image')
-      .getOne();
-  
+        .where('UPPER(title) =:title or slug =:slug', {
+          title: term.toUpperCase(),
+          slug: term.toLowerCase(),
+        }).leftJoinAndSelect('food.images', 'food_image')
+        .getOne();
+
     }
 
-    if(!food) {
+    if (!food) {
       throw new NotFoundException(`Food with ${term} not found`);
     }
 
@@ -89,7 +92,7 @@ export class FoodService {
 
     return {
       ...rset,
-      images: images.map( image => image.url )
+      images: images.map(image => image.url)
     }
   }
 
@@ -99,7 +102,7 @@ export class FoodService {
 
     const food = await this.foodRepository.preload({ id: id, ...toUpdate });
 
-    if(!food){
+    if (!food) {
       throw new NotFoundException(`Food with ${id} not found`);
     }
 
@@ -110,12 +113,12 @@ export class FoodService {
 
     try {
 
-      if( images ) {
-        await queryRunner.manager.delete(FoodImage, { food: { id} });
+      if (images) {
+        await queryRunner.manager.delete(FoodImage, { food: { id } });
 
-        food.images = images.map( image =>
+        food.images = images.map(image =>
           this.foodImageRepository.create({ url: image })
-         )
+        )
       } else {
         return food;
       }
@@ -141,23 +144,23 @@ export class FoodService {
 
     return `${food.title} was deleted`;
   }
-  
-  private handleDBExceptions(error: any){
-    if(error.code === '23505')
+
+  private handleDBExceptions(error: any) {
+    if (error.code === '23505')
       throw new BadGatewayException(error.detail);
 
     this.logger.error(error);
     throw new InternalServerErrorException('Unexpected error, check server logs');
   }
 
-  async deleteAllFoods(){
+  async deleteAllFoods() {
 
     const query = this.foodRepository.createQueryBuilder('food')
 
-    try{
+    try {
       return await query.delete()
-      .where({})
-      .execute();
+        .where({})
+        .execute();
     } catch (error) {
       this.handleDBExceptions(error);
     }
