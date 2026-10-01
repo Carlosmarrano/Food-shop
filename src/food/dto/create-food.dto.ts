@@ -1,3 +1,4 @@
+import { Type } from "class-transformer";
 import { IsArray, IsBoolean, IsInt, IsNumber, IsOptional, IsPositive, IsString, Min, MinLength } from "class-validator";
 
 export class CreateFoodDto {
@@ -13,6 +14,7 @@ export class CreateFoodDto {
     @IsOptional()
     slug?: string;
 
+    @Type(() => Number)
     @IsNumber()
     @IsPositive()
     price: number;
@@ -22,6 +24,7 @@ export class CreateFoodDto {
     @IsOptional()
     images?: string[];
 
+    @Type(() => Number)
     @IsInt()
     @Min(0)
     stock: number;
