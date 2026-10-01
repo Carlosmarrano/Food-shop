@@ -1,16 +1,12 @@
-import { v2 as CloudinaryAPI } from 'cloudinary';
-import { CLOUDINARY } from './constants';
-import { ConfigService } from '@nestjs/config';
-import { Provider } from '@nestjs/common';
+import { v2 as cloudinary } from 'cloudinary';
 
-export const CloudinaryProvider: Provider = {
-    provide: CLOUDINARY,
-    useFactory: (configService: ConfigService) => {
-        return CloudinaryAPI.config({
-            cloud_name: configService.get("YourCloudinaryName"),
-            api_key: configService.get("YourCloudinaryKey"),
-            api_secret: configService.get("YourCloudinaryApiSecret"),
+export const CloudinaryProvider = {
+    provide: 'CLOUDINARY',
+    useFactory: () => {
+        return cloudinary.config({
+            cloud_name: process.env.CLOUDINARY_NAME,
+            api_key: process.env.CLOUDINARY_API_KEY,
+            api_secret: process.env.CLOUDINARY_API_SECRET,
         });
     },
-    inject: [ConfigService],
 }; 
