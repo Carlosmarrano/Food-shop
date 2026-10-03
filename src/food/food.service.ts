@@ -96,15 +96,17 @@ export class FoodService {
     }
   }
 
-  async update(id: string, updateFoodDto: UpdateFoodDto, user: User) {
+  async update(id: string, updateFoodDto: UpdateFoodDto, user: User, file?: UploadedFileInterface) {
 
-    const { images = [], ...toUpdate } = updateFoodDto;
+    const { images, ...toUpdate } = updateFoodDto;
 
     const food = await this.foodRepository.preload({ id: id, ...toUpdate });
 
     if (!food) {
       throw new NotFoundException(`Food with ${id} not found`);
     }
+
+    food.user = user;
 
     const queryRunner = this.dataSource.createQueryRunner();
 
@@ -113,28 +115,32 @@ export class FoodService {
 
     try {
 
-      if (images) {
+      if (file && file.buffer) {
+
+        const uploadResult = await this.cloudinaryService.uploadImageToCloudinary(file) as { secure_url: string };
+
         await queryRunner.manager.delete(FoodImage, { food: { id } });
 
-        food.images = images.map(image =>
-          this.foodImageRepository.create({ url: image })
-        )
-      } else {
-        return food;
-      }
+        food.images = [
+          this.foodImageRepository.create({ url: uploadResult.secure_url })
+        ];
+      } else if (images && images.length > 0) {
+        await queryRunner.manager.delete(FoodImage, { food: { id } });
 
-      food.user = user;
+        food.images = images.map(url => this.foodImageRepository.create({ url })
+        );
+      }
 
       await queryRunner.manager.save(food);
       await queryRunner.commitTransaction();
-      await queryRunner.release();
 
       return this.findOnePlain(id);
 
     } catch (error) {
       await queryRunner.rollbackTransaction();
-      await queryRunner.release();
       this.handleDBExceptions(error);
+    } finally {
+      await queryRunner.release();
     }
   }
 
