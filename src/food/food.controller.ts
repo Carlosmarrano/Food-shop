@@ -37,12 +37,14 @@ export class FoodController {
 
   @Patch(':id')
   @Auth(ValidRoles.admin)
+  @UseInterceptors(FileInterceptor('file'))
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateFoodDto: UpdateFoodDto,
-    @GetUser() user: User
+    @GetUser() user: User,
+    @UploadedFile() file?: UploadedFileInterface,
   ) {
-    return this.foodService.update(id, updateFoodDto, user);
+    return this.foodService.update(id, updateFoodDto, user, file);
   }
 
   @Delete(':id')
